@@ -1,4 +1,6 @@
 ﻿
+using Catalog.API.Products.GetProducts;
+
 namespace Catalog.API.Products.GetProductByCategory
 {
     // public record GetProductByCategoryRequest();
@@ -13,7 +15,13 @@ namespace Catalog.API.Products.GetProductByCategory
                 var result = await sender.Send(new GetProductByCategoryQuery(category));
                 var response = result.Adapt<GetProductByCategoryResponse>();
                 return Results.Ok(response);
-            });
+            })
+            .WithName("GetProductByCategory")
+            .Produces<GetProductsResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .WithSummary("Get Product By Category")
+            .WithDescription("Get Product By Category"); ;
         }
     }
 }
