@@ -9,7 +9,7 @@
         {
             logger.LogInformation("GetProductByIdQueryHandler.Handle called with {@Query}", query);
             var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
-            if (product == null)
+            if (product is null)
                 throw new ProductNotFoundException();
 
             return new GetProductByIdResult(product);
